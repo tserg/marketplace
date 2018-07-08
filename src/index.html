@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Marketplace</title>
+
+    <link rel="stylesheet" href="style.css">
+
+  </head>
+
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src = "js/web3.min.js"></script>
+    <script src = "js/truffle-contract.js"></script>
+    <script src = "js/app.js"></script>
+
+    <h3 align="center">Marketplace</h3>
+      <div id = "dashboard">
+        <div id="wallet_display">
+          <span>Current wallet: </span>
+          <span id ="account"></div>
+        </div>
+
+        <div id="status_display">
+          <span>Account status: </span>
+          <span id ="status"></span>
+        </div>
+
+      </div>
+      <div class="tab-content">
+
+        <button class = "btn btn-default btn-open-store" type = "button" data-id="0">Open Store</button>
+
+
+      </div>
+
+    <h4>Get the current itemId</h4>
+
+      <div>
+        <div>
+          <button class = "btn btn-default btn-get-item-id" type="button" data-id="1">Get Item ID</button>
+
+          <span id = "itemId"></span>
+        </div>
+
+        <div>
+          <button class="btn btn-default btn-get-store-id" type = "button" data-id = "2">Get Store ID</button>
+          <span id = "storeId"></span>
+
+      </div>
+
+
+
+
+  </body>
+
+</html>
