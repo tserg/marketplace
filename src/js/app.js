@@ -36,6 +36,8 @@ App = {
       // Set the provider for this contracts
       App.contracts.Marketplace.setProvider(App.web3Provider);
 
+      return App.getStoreId();
+
     });
 
     return App.bindEvents();
@@ -45,7 +47,6 @@ App = {
   bindEvents: function() {
     console.log("hello2");
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
-    $(document).on('click', '.btn-get-store-id', App.getStoreId);
   },
 
   handleOpenStore: function(event) {
@@ -71,31 +72,36 @@ App = {
     });
   },
 
-  getStoreId: function(event) {
+  getStoreId: function(storeId, accounts) {
     console.log("hello4");
-    event.preventDefault();
 
     var marketplaceInstance;
 
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
+    App.contracts.Marketplace.deployed().then(function(instance) {
+      marketplaceInstance = instance;
 
-      App.contracts.Marketplace.deployed().then(function(instance) {
-        marketplaceInstance = instance;
+      return marketplaceInstance.fetchCurrentStoreId.call();
+    }).then(function(storeId) {
+      document.getElementById("store-id").innerHTML = storeId;
+    }).catch(function(err){
+      console.log(err.message);
+    });
 
-        marketplaceInstance.storeId().call(function(err,res) {
-          console.log(res);
-          document.getElementById("storeId").innerHTML = res;
-        });
+    return App.getItemId();
+  },
 
+  getItemId: function(itemId, accounts) {
+    var marketplaceInstance;
 
-      });
+    App.contracts.Marketplace.deployed().then(function(instance) {
+      marketplaceInstance = instance;
 
-    })
-
-
+      return marketplaceInstance.fetchCurrentItemId.call();
+    }).then(function(itemId) {
+      document.getElementById("item-id").innerHTML = itemId;
+    }).catch(function(err) {
+      console.log(err.message);
+    });
   }
 };
 
