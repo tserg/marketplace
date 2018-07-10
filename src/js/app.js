@@ -20,8 +20,6 @@ App = {
     document.getElementById("account").innerHTML = account;
 
     // Display status of current wallet i.e. admin privileges
-    // var status =
-
 
     return App.initContract();
   },
@@ -47,6 +45,7 @@ App = {
   bindEvents: function() {
     console.log("hello2");
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
+    $(document).on('click', '.btn-list-item', App.handleListItem);
   },
 
   handleOpenStore: function(event) {
@@ -66,6 +65,29 @@ App = {
         marketplaceInstance = instance;
 
         return marketplaceInstance.openStore({from: account});
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  handleListItem: function(event) {
+    console.log("list item");
+    event.preventDefault();
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.listItem($("#list-item-store-id").val(), $("#list-item-name").val(), $("#list-item-price").val(), {from: account});
       }).catch(function(err) {
         console.log(err.message);
       });
