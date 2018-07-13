@@ -1,0 +1,25 @@
+/* This is the CSS file for MarketplaceArtifact
+
+*/
+
+body {
+  font-family: Calibri;
+}
+
+.dashboard {
+  border-style: solid;
+  padding: 10px;
+
+}
+
+.list-item-section {
+
+}
+
+.list-item-fields {
+  display: table;
+  table-layout: fixed;
+  margin-top: 10px;
+
+
+}

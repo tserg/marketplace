@@ -9,8 +9,8 @@ contract Marketplace {
     storeId: total number of stores opened
     itemId: total number of items listed
   */
-  uint storeId;
-  uint itemId;
+  uint public storeId;
+  uint public itemId;
 
   /*
     userStatus: privileges granted to addresses
@@ -85,7 +85,7 @@ contract Marketplace {
     @dev: sets an address as Admin
     @param addr Address to be set as Admin
   */
-  function setAdmin(address _address) public verifyAdmin {
+  function addAdmin(address _address) public verifyAdmin {
     userStatus[_address] = Status.Admin;
     emit AdminAdded(_address);
   }
@@ -160,22 +160,6 @@ contract Marketplace {
     returns (uint[] stores)
   {
     stores = storeownerList[_address];
-  }
-
-  function fetchCurrentStoreId()
-    public
-    view
-    returns (uint)
-  {
-    return storeId;
-  }
-
-  function fetchCurrentItemId()
-    public
-    view
-    returns (uint)
-  {
-    return itemId;
   }
 
 

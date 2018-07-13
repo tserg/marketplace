@@ -46,6 +46,8 @@ App = {
     console.log("hello2");
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
     $(document).on('click', '.btn-list-item', App.handleListItem);
+    $(document).on('click', '.btn-add-admin', App.handleAddAdmin);
+    $(document).on('click', '.btn-add-storeowner', App.handleAddStoreowner);
   },
 
   handleOpenStore: function(event) {
@@ -94,7 +96,53 @@ App = {
     });
   },
 
-  getStoreId: function(storeId, accounts) {
+  handleAddAdmin: function(event) {
+    console.log("add admin");
+    event.preventDefault();
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.addAdmin($("#new-admin-address").val(), {from: account});
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  handleAddStoreowner: function(event) {
+    console.log("add store owner");
+    event.preventDefault();
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.addStoreowner($("#new-storeowner-address").val(), {from: account});
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  getStoreId: function(storeId) {
     console.log("hello4");
 
     var marketplaceInstance;
@@ -102,7 +150,7 @@ App = {
     App.contracts.Marketplace.deployed().then(function(instance) {
       marketplaceInstance = instance;
 
-      return marketplaceInstance.fetchCurrentStoreId.call();
+      return marketplaceInstance.storeId.call();
     }).then(function(storeId) {
       document.getElementById("store-id").innerHTML = storeId;
     }).catch(function(err){
@@ -112,19 +160,49 @@ App = {
     return App.getItemId();
   },
 
-  getItemId: function(itemId, accounts) {
+  getItemId: function(itemId) {
     var marketplaceInstance;
 
     App.contracts.Marketplace.deployed().then(function(instance) {
       marketplaceInstance = instance;
 
-      return marketplaceInstance.fetchCurrentItemId.call();
+      return marketplaceInstance.itemId.call();
     }).then(function(itemId) {
       document.getElementById("item-id").innerHTML = itemId;
     }).catch(function(err) {
       console.log(err.message);
     });
+
+  },
+
+  getItems: function(items) {
+    var marketplaceInstance;
+
+    App.contracts.Marketplace.deployed().then(function(instance) {
+      marketplaceInstance = instance;
+
+      return marketplaceInstance.itemList.call();
+    }).then(function(items) {
+
+      for (var z = 0; z<items.size(); z++) {
+
+        var box = document.createElement("div");
+        var parent = document.getElementById("master-box");
+
+        box.innerHTML = z;
+
+        // to be continued 
+
+        parent.appendChild(box);
+
+      };
+    }).catch(function(err) {
+      console.log(err.message);
+    });
+
   }
+
+
 };
 
 $(function() {
