@@ -48,6 +48,7 @@ App = {
     $(document).on('click', '.btn-list-item', App.handleListItem);
     $(document).on('click', '.btn-add-admin', App.handleAddAdmin);
     $(document).on('click', '.btn-add-storeowner', App.handleAddStoreowner);
+    $(document).on('click', '.btn-view-items', App.populateItemsPlaceholder);
   },
 
   handleOpenStore: function(event) {
@@ -172,27 +173,31 @@ App = {
     }).catch(function(err) {
       console.log(err.message);
     });
-
+    return App.createItemsPlaceholder();
   },
 
-  getItems: function(items) {
+  createItemsPlaceholder: function(itemId, callback) {
     var marketplaceInstance;
 
     App.contracts.Marketplace.deployed().then(function(instance) {
       marketplaceInstance = instance;
 
-      return marketplaceInstance.itemList.call();
-    }).then(function(items) {
+      return marketplaceInstance.itemId.call();
+    }).then(function(itemId) {
 
-      for (var z = 0; z<items.size(); z++) {
+      var _itemId = itemId;
+
+      for (var i = 0; i<_itemId; i++) {
+
+        console.log(i);
 
         var box = document.createElement("div");
+        box.className = "item-box";
+
+        box.setAttribute("id", "item-"+i);
+        box.innerHTML = i;
+
         var parent = document.getElementById("master-box");
-
-        box.innerHTML = z;
-
-        // to be continued 
-
         parent.appendChild(box);
 
       };
@@ -200,6 +205,32 @@ App = {
       console.log(err.message);
     });
 
+  },
+
+  populateItemsPlaceholder: function(item) {
+    var marketplaceInstance;
+    var itemsCount;
+
+    itemsCount = $("#master-box > div").length;
+
+    console.log("Total no. of items: " + itemsCount);
+
+    for (var j = 0; j < itemsCount; j++) {
+      console.log("Current item: " + j);
+      var currentBox = "item-" + j;
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.itemList.call(j);
+      }).then(function(item) {
+        console.log(item);
+        document.getElementById(currentBox).innerHTML = item;
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+
+    };
   }
 
 

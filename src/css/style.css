@@ -21,5 +21,9 @@ body {
   table-layout: fixed;
   margin-top: 10px;
 
+}
 
+.item-box {
+  padding: 10px;
+  margin: 10px;
 }
