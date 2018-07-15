@@ -26,4 +26,12 @@ body {
 .item-box {
   padding: 10px;
   margin: 10px;
+  display: block;
+  vertical-align: middle;
+}
+
+.item-box-details {
+  display: block;
+  vertical-align: middle;
+  padding-left: 20px;
 }

@@ -10,7 +10,7 @@ App = {
     } else {
 
     // If no injected web3 instance is detected, fall back to Ganache
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
     }
     web3 = new Web3(App.web3Provider);
 
@@ -48,7 +48,8 @@ App = {
     $(document).on('click', '.btn-list-item', App.handleListItem);
     $(document).on('click', '.btn-add-admin', App.handleAddAdmin);
     $(document).on('click', '.btn-add-storeowner', App.handleAddStoreowner);
-    $(document).on('click', '.btn-view-items', App.populateItemsPlaceholder);
+    $(document).one('click', '.btn-view-items', App.populateItemsPlaceholder);
+    $(document).on('click', '.btn-item-buy', App.handleBuyItem);
   },
 
   handleOpenStore: function(event) {
@@ -173,10 +174,42 @@ App = {
     }).catch(function(err) {
       console.log(err.message);
     });
+    return App.getUserStatus();
+  },
+
+  getUserStatus: function(status) {
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.userStatus.call(account);
+      }).then(function(status) {
+        console.log("User status: " + status);
+
+        if (status == 0) {
+          document.getElementById("account_status").innerHTML = "Normal";
+        } else if (status == 1) {
+          document.getElementById("account_status").innerHTML = "Admin";
+        } else {
+          document.getElementById("account_status").innerHTML = "Storeowner";
+        }
+
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
     return App.createItemsPlaceholder();
   },
 
-  createItemsPlaceholder: function(itemId, callback) {
+  createItemsPlaceholder: function(itemId) {
     var marketplaceInstance;
 
     App.contracts.Marketplace.deployed().then(function(instance) {
@@ -189,16 +222,14 @@ App = {
 
       for (var i = 0; i<_itemId; i++) {
 
-        console.log(i);
-
         var box = document.createElement("div");
         box.className = "item-box";
 
         box.setAttribute("id", "item-"+i);
-        box.innerHTML = i;
 
         var parent = document.getElementById("master-box");
         parent.appendChild(box);
+        console.log("Box " + i + " created");
 
       };
     }).catch(function(err) {
@@ -217,22 +248,111 @@ App = {
 
     for (var j = 0; j < itemsCount; j++) {
       console.log("Current item: " + j);
-      var currentBox = "item-" + j;
+
+      /* for asynchronous execution of function: to lock in value of j
+        https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
+      */
+      (function(cntr) {
+        var currentBoxId = "item-" + j;
+        var currentBox = document.getElementById(currentBoxId);
+
+        App.contracts.Marketplace.deployed().then(function(instance) {
+          marketplaceInstance = instance;
+
+          return marketplaceInstance.itemList.call(cntr);
+        }).then(function(item) {
+
+          var currentItemShopId = document.createElement("span");
+          currentItemShopId.className = "item-box-details";
+          currentItemShopId.innerHTML = "Shop: " + (item[0]);
+
+          var currentItemName = document.createElement("span");
+          currentItemName.className = "item-box-details";
+          currentItemName.innerHTML = "Name: " + item[2];
+
+          var currentItemPrice = document.createElement("span");
+          currentItemPrice.className = "item-box-details";
+          currentItemPrice.innerHTML = "Price: " + item[3];
+          currentItemPrice.setAttribute("id", "price-"+item[1]);
+
+          var currentItemState = document.createElement("span");
+          currentItemState.className = "item-box-details";
+
+          var currentItemSeller = document.createElement("span");
+          currentItemSeller.className = "item-box-details";
+          currentItemSeller.innerHTML = "Seller: " + item[5];
+          currentBox.appendChild(currentItemSeller);
+
+          currentBox.appendChild(currentItemShopId);
+          currentBox.appendChild(currentItemName);
+          currentBox.appendChild(currentItemPrice);
+          currentBox.appendChild(currentItemSeller);
+
+          if (item[4] == 1) {
+            currentItemState.innerHTML = "State: Sold";
+            currentBox.appendChild(currentItemState);
+
+            var currentItemBuyer = document.createElement("span");
+            currentItemBuyer.className = "item-box-details";
+            currentItemBuyer.innerHTML = "Buyer: " + item[6];
+            currentBox.appendChild(currentItemBuyer);
+          } else {
+            currentItemState.innerHTML = "State: For Sale";
+            currentBox.appendChild(currentItemState);
+
+            var buyButton = document.createElement("button");
+            buyButton.className = "btn-item-buy";
+            buyButton.setAttribute("type", "button")
+            buyButton.setAttribute("id", item[0]);
+            buyButton.innerHTML = "Buy this item";
+            currentBox.appendChild(buyButton);
+          }
+
+          var currentItemSeller = document.createElement("span");
+          currentItemSeller.className = "item-box-details";
+          currentItemSeller.innerHTML = "Seller: " + item[5];
+
+
+        }).catch(function(err) {
+          console.log(err.message);
+        });
+      })(j);
+    };
+  },
+
+  handleBuyItem: function(event) {
+    console.log("buy item");
+
+    event.preventDefault();
+
+    var _sku = parseInt(($(event.target).attr("id")));
+
+    console.log(_sku);
+
+    var purchasePrice = parseInt($("#price-"+_sku).html().substring(7));
+
+    console.log(purchasePrice);
+
+    var weiPurchasePrice = web3.toWei(purchasePrice, 'ether');
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
 
       App.contracts.Marketplace.deployed().then(function(instance) {
         marketplaceInstance = instance;
 
-        return marketplaceInstance.itemList.call(j);
-      }).then(function(item) {
-        console.log(item);
-        document.getElementById(currentBox).innerHTML = item;
+        return marketplaceInstance.buyItem(_sku, {from: account, value: weiPurchasePrice});
       }).catch(function(err) {
         console.log(err.message);
       });
-
-    };
+    });
   }
-
 
 };
 
