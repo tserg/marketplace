@@ -162,6 +162,14 @@ contract Marketplace {
     stores = storeownerList[_address];
   }
 
+  function fetchStoreowner(uint _storeId)
+    public
+    view
+    returns (address _storeowner)
+  {
+    _storeowner = storeList[_storeId].storeowner;
+  }
+
 
   /*
   function closeStore() private verifyStoreowner {
