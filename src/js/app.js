@@ -46,8 +46,6 @@ App = {
     console.log("hello2");
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
     $(document).on('click', '.btn-list-item', App.handleListItem);
-    $(document).on('click', '.btn-add-admin', App.handleAddAdmin);
-    $(document).on('click', '.btn-add-storeowner', App.handleAddStoreowner);
     $(document).one('click', '.btn-view-items', App.populateItemsPlaceholder);
     $(document).on('click', '.btn-item-buy', App.handleBuyItem);
   },
@@ -92,52 +90,6 @@ App = {
         marketplaceInstance = instance;
 
         return marketplaceInstance.listItem($("#list-item-store-id").val(), $("#list-item-name").val(), $("#list-item-price").val(), {from: account});
-      }).catch(function(err) {
-        console.log(err.message);
-      });
-    });
-  },
-
-  handleAddAdmin: function(event) {
-    console.log("add admin");
-    event.preventDefault();
-
-    var marketplaceInstance;
-
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
-      var account = accounts[0];
-
-      App.contracts.Marketplace.deployed().then(function(instance) {
-        marketplaceInstance = instance;
-
-        return marketplaceInstance.addAdmin($("#new-admin-address").val(), {from: account});
-      }).catch(function(err) {
-        console.log(err.message);
-      });
-    });
-  },
-
-  handleAddStoreowner: function(event) {
-    console.log("add store owner");
-    event.preventDefault();
-
-    var marketplaceInstance;
-
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
-      var account = accounts[0];
-
-      App.contracts.Marketplace.deployed().then(function(instance) {
-        marketplaceInstance = instance;
-
-        return marketplaceInstance.addStoreowner($("#new-storeowner-address").val(), {from: account});
       }).catch(function(err) {
         console.log(err.message);
       });
@@ -198,6 +150,88 @@ App = {
           document.getElementById("account_status").innerHTML = "Normal";
         } else if (status == 1) {
           document.getElementById("account_status").innerHTML = "Admin";
+
+          // get div for admin dashboard
+
+          var adminDashboard = document.getElementById("admin-dashboard");
+          adminDashboard.style.display = "block";
+
+          // create adminDashboardTitle
+
+          var adminDashboardTitle = document.createElement("h3");
+          adminDashboardTitle.innerHTML = "Admin Dashboard";
+
+          adminDashboard.appendChild(adminDashboardTitle);
+
+          // create div for inputting add admin function
+
+          var adminDashboardAddAdmin = document.createElement("div");
+          adminDashboardAddAdmin.class = "sub-dashboard";
+          var adminDashboardAddAdminTitle = document.createElement("h4");
+          adminDashboardAddAdminTitle.innerHTML = "Add an admin";
+
+          // create span for address field
+
+          var adminDashboardInputNewAdminArea = document.createElement("span");
+          adminDashboardInputNewAdminArea.innerHTML = "Address: ";
+          var adminDashboardInputNewAdmin = document.createElement("input");
+          adminDashboardInputNewAdmin.type = "text";
+          adminDashboardInputNewAdmin.size = "50";
+          adminDashboardInputNewAdmin.setAttribute("id", "new-admin-address");
+
+          // create span for button to add admin
+          var adminDashboardInputNewAdminButtonPlaceholder = document.createElement("span");
+          var adminDashboardInputNewAdminButton = document.createElement("button");
+          adminDashboardInputNewAdminButton.type = "button";
+          adminDashboardInputNewAdminButton.class = "btn-add-admin";
+          adminDashboardInputNewAdminButton.innerHTML = "Add admin";
+          adminDashboardInputNewAdminButton.addEventListener("click", function() {
+            return App.handleAddAdmin();
+          })
+
+          adminDashboardInputNewAdminArea.appendChild(adminDashboardInputNewAdmin);
+          adminDashboardInputNewAdminButtonPlaceholder.appendChild(adminDashboardInputNewAdminButton)
+
+          adminDashboardAddAdmin.appendChild(adminDashboardAddAdminTitle);
+          adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminArea);
+          adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminButtonPlaceholder);
+
+          adminDashboard.appendChild(adminDashboardAddAdmin);
+
+          // create div for inputting add storeowner functions
+          var adminDashboardAddStoreowner = document.createElement("div");
+          adminDashboardAddStoreowner.class = "sub-dashboard";
+          var adminDashboardAddStoreownerTitle = document.createElement("h4");
+          adminDashboardAddStoreownerTitle.innerHTML = "Add a storeowner";
+
+          // create span for address field
+
+          var adminDashboardInputNewStoreownerArea = document.createElement("span");
+          adminDashboardInputNewStoreownerArea.innerHTML = "Address: ";
+          var adminDashboardInputNewStoreowner = document.createElement("input");
+          adminDashboardInputNewStoreowner.type = "text";
+          adminDashboardInputNewStoreowner.size = "50";
+          adminDashboardInputNewStoreowner.setAttribute("id", "new-storeowner-address");
+
+          // create span for button to add storeowner
+          var adminDashboardInputNewStoreownerButtonPlaceholder = document.createElement("span");
+          var adminDashboardInputNewStoreownerButton = document.createElement("button");
+          adminDashboardInputNewStoreownerButton.type = "button";
+          adminDashboardInputNewStoreownerButton.class = "btn-add-storeowner";
+          adminDashboardInputNewStoreownerButton.innerHTML = "Add storeowner";
+          adminDashboardInputNewStoreownerButton.addEventListener("click", function() {
+            return App.handleAddStoreowner();
+          })
+
+          adminDashboardInputNewStoreownerArea.appendChild(adminDashboardInputNewStoreowner);
+          adminDashboardInputNewStoreownerButtonPlaceholder.appendChild(adminDashboardInputNewStoreownerButton)
+
+          adminDashboardAddStoreowner.appendChild(adminDashboardAddStoreownerTitle);
+          adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerArea);
+          adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerButtonPlaceholder);
+
+          adminDashboard.appendChild(adminDashboardAddStoreowner);
+
         } else {
           document.getElementById("account_status").innerHTML = "Storeowner";
         }
@@ -348,6 +382,50 @@ App = {
         marketplaceInstance = instance;
 
         return marketplaceInstance.buyItem(_sku, {from: account, value: weiPurchasePrice});
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  handleAddAdmin: function(event) {
+    console.log("add admin");
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.addAdmin($("#new-admin-address").val(), {from: account});
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  handleAddStoreowner: function(event) {
+    console.log("add store owner");
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.addStoreowner($("#new-storeowner-address").val(), {from: account});
       }).catch(function(err) {
         console.log(err.message);
       });
