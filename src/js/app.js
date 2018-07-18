@@ -52,7 +52,6 @@ App = {
 
   handleOpenStore: function(event) {
     console.log("hello3");
-    event.preventDefault();
 
     var marketplaceInstance;
 
@@ -75,7 +74,6 @@ App = {
 
   handleListItem: function(event) {
     console.log("list item");
-    event.preventDefault();
 
     var marketplaceInstance;
 
@@ -148,93 +146,191 @@ App = {
 
         if (status == 0) {
           document.getElementById("account_status").innerHTML = "Normal";
-        } else if (status == 1) {
-          document.getElementById("account_status").innerHTML = "Admin";
-
-          // get div for admin dashboard
-
-          var adminDashboard = document.getElementById("admin-dashboard");
-          adminDashboard.style.display = "block";
-
-          // create adminDashboardTitle
-
-          var adminDashboardTitle = document.createElement("h3");
-          adminDashboardTitle.innerHTML = "Admin Dashboard";
-
-          adminDashboard.appendChild(adminDashboardTitle);
-
-          // create div for inputting add admin function
-
-          var adminDashboardAddAdmin = document.createElement("div");
-          adminDashboardAddAdmin.class = "sub-dashboard";
-          var adminDashboardAddAdminTitle = document.createElement("h4");
-          adminDashboardAddAdminTitle.innerHTML = "Add an admin";
-
-          // create span for address field
-
-          var adminDashboardInputNewAdminArea = document.createElement("span");
-          adminDashboardInputNewAdminArea.innerHTML = "Address: ";
-          var adminDashboardInputNewAdmin = document.createElement("input");
-          adminDashboardInputNewAdmin.type = "text";
-          adminDashboardInputNewAdmin.size = "50";
-          adminDashboardInputNewAdmin.setAttribute("id", "new-admin-address");
-
-          // create span for button to add admin
-          var adminDashboardInputNewAdminButtonPlaceholder = document.createElement("span");
-          var adminDashboardInputNewAdminButton = document.createElement("button");
-          adminDashboardInputNewAdminButton.type = "button";
-          adminDashboardInputNewAdminButton.class = "btn-add-admin";
-          adminDashboardInputNewAdminButton.innerHTML = "Add admin";
-          adminDashboardInputNewAdminButton.addEventListener("click", function() {
-            return App.handleAddAdmin();
-          })
-
-          adminDashboardInputNewAdminArea.appendChild(adminDashboardInputNewAdmin);
-          adminDashboardInputNewAdminButtonPlaceholder.appendChild(adminDashboardInputNewAdminButton)
-
-          adminDashboardAddAdmin.appendChild(adminDashboardAddAdminTitle);
-          adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminArea);
-          adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminButtonPlaceholder);
-
-          adminDashboard.appendChild(adminDashboardAddAdmin);
-
-          // create div for inputting add storeowner functions
-          var adminDashboardAddStoreowner = document.createElement("div");
-          adminDashboardAddStoreowner.class = "sub-dashboard";
-          var adminDashboardAddStoreownerTitle = document.createElement("h4");
-          adminDashboardAddStoreownerTitle.innerHTML = "Add a storeowner";
-
-          // create span for address field
-
-          var adminDashboardInputNewStoreownerArea = document.createElement("span");
-          adminDashboardInputNewStoreownerArea.innerHTML = "Address: ";
-          var adminDashboardInputNewStoreowner = document.createElement("input");
-          adminDashboardInputNewStoreowner.type = "text";
-          adminDashboardInputNewStoreowner.size = "50";
-          adminDashboardInputNewStoreowner.setAttribute("id", "new-storeowner-address");
-
-          // create span for button to add storeowner
-          var adminDashboardInputNewStoreownerButtonPlaceholder = document.createElement("span");
-          var adminDashboardInputNewStoreownerButton = document.createElement("button");
-          adminDashboardInputNewStoreownerButton.type = "button";
-          adminDashboardInputNewStoreownerButton.class = "btn-add-storeowner";
-          adminDashboardInputNewStoreownerButton.innerHTML = "Add storeowner";
-          adminDashboardInputNewStoreownerButton.addEventListener("click", function() {
-            return App.handleAddStoreowner();
-          })
-
-          adminDashboardInputNewStoreownerArea.appendChild(adminDashboardInputNewStoreowner);
-          adminDashboardInputNewStoreownerButtonPlaceholder.appendChild(adminDashboardInputNewStoreownerButton)
-
-          adminDashboardAddStoreowner.appendChild(adminDashboardAddStoreownerTitle);
-          adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerArea);
-          adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerButtonPlaceholder);
-
-          adminDashboard.appendChild(adminDashboardAddStoreowner);
-
         } else {
-          document.getElementById("account_status").innerHTML = "Storeowner";
+          if (status == 1) {
+
+            document.getElementById("account_status").innerHTML = "Admin";
+
+            // get div for admin dashboard
+
+            var adminDashboard = document.getElementById("admin-dashboard");
+            adminDashboard.style.display = "block";
+
+            // create adminDashboardTitle
+
+            var adminDashboardTitle = document.createElement("h3");
+            adminDashboardTitle.innerHTML = "Admin Dashboard";
+
+            adminDashboard.appendChild(adminDashboardTitle);
+
+            // create div for inputting add admin function
+
+            var adminDashboardAddAdmin = document.createElement("div");
+            adminDashboardAddAdmin.class = "sub-dashboard";
+            var adminDashboardAddAdminTitle = document.createElement("h4");
+            adminDashboardAddAdminTitle.innerHTML = "Add an admin";
+
+            // create span for address field
+
+            var adminDashboardInputNewAdminArea = document.createElement("span");
+            adminDashboardInputNewAdminArea.innerHTML = "Address: ";
+            var adminDashboardInputNewAdmin = document.createElement("input");
+            adminDashboardInputNewAdmin.type = "text";
+            adminDashboardInputNewAdmin.size = "50";
+            adminDashboardInputNewAdmin.setAttribute("id", "new-admin-address");
+
+            // create span for button to add admin
+            var adminDashboardInputNewAdminButtonPlaceholder = document.createElement("span");
+            var adminDashboardInputNewAdminButton = document.createElement("button");
+            adminDashboardInputNewAdminButton.type = "button";
+            adminDashboardInputNewAdminButton.class = "btn-add-admin";
+            adminDashboardInputNewAdminButton.innerHTML = "Add admin";
+            adminDashboardInputNewAdminButton.addEventListener("click", function() {
+              return App.handleAddAdmin();
+            })
+
+            adminDashboardInputNewAdminArea.appendChild(adminDashboardInputNewAdmin);
+            adminDashboardInputNewAdminButtonPlaceholder.appendChild(adminDashboardInputNewAdminButton)
+
+            adminDashboardAddAdmin.appendChild(adminDashboardAddAdminTitle);
+            adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminArea);
+            adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminButtonPlaceholder);
+
+            adminDashboard.appendChild(adminDashboardAddAdmin);
+
+            // create div for inputting add storeowner functions
+            var adminDashboardAddStoreowner = document.createElement("div");
+            adminDashboardAddStoreowner.class = "sub-dashboard";
+            var adminDashboardAddStoreownerTitle = document.createElement("h4");
+            adminDashboardAddStoreownerTitle.innerHTML = "Add a storeowner";
+
+            // create span for address field
+
+            var adminDashboardInputNewStoreownerArea = document.createElement("span");
+            adminDashboardInputNewStoreownerArea.innerHTML = "Address: ";
+            var adminDashboardInputNewStoreowner = document.createElement("input");
+            adminDashboardInputNewStoreowner.type = "text";
+            adminDashboardInputNewStoreowner.size = "50";
+            adminDashboardInputNewStoreowner.setAttribute("id", "new-storeowner-address");
+
+            // create span for button to add storeowner
+            var adminDashboardInputNewStoreownerButtonPlaceholder = document.createElement("span");
+            var adminDashboardInputNewStoreownerButton = document.createElement("button");
+            adminDashboardInputNewStoreownerButton.type = "button";
+            adminDashboardInputNewStoreownerButton.class = "btn-add-storeowner";
+            adminDashboardInputNewStoreownerButton.innerHTML = "Add storeowner";
+            adminDashboardInputNewStoreownerButton.addEventListener("click", function() {
+              return App.handleAddStoreowner();
+            })
+
+            adminDashboardInputNewStoreownerArea.appendChild(adminDashboardInputNewStoreowner);
+            adminDashboardInputNewStoreownerButtonPlaceholder.appendChild(adminDashboardInputNewStoreownerButton)
+
+            adminDashboardAddStoreowner.appendChild(adminDashboardAddStoreownerTitle);
+            adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerArea);
+            adminDashboardAddStoreowner.appendChild(adminDashboardInputNewStoreownerButtonPlaceholder);
+
+            adminDashboard.appendChild(adminDashboardAddStoreowner);
+
+          } else {
+            document.getElementById("account_status").innerHTML = "Storeowner";
+
+          }
+
+          // get div for storeowner dashboard
+
+          var storeownerDashboard = document.getElementById("storeowner-dashboard");
+          storeownerDashboard.style.display = "block";
+
+          // create storeownerDashboardTitle
+
+          var storeownerDashboardTitle = document.createElement("h3");
+          storeownerDashboardTitle.innerHTML = "Storeowner Dashboard";
+
+          storeownerDashboard.appendChild(storeownerDashboardTitle);
+
+          // create div for open store function
+
+          var storeownerDashboardOpenStore = document.createElement("div");
+          storeownerDashboardOpenStore.class = "sub-dashboard";
+
+          // create span for button to open new store
+          var storeownerDashboardOpenNewStoreButtonPlaceholder = document.createElement("span");
+          var storeownerDashboardOpenNewStoreButton = document.createElement("button");
+          storeownerDashboardOpenNewStoreButton.type = "button";
+          storeownerDashboardOpenNewStoreButton.class = "btn-open-store";
+          storeownerDashboardOpenNewStoreButton.innerHTML = "Open a new store";
+          storeownerDashboardOpenNewStoreButton.addEventListener("click", function() {
+            return App.handleOpenStore();
+          });
+
+          storeownerDashboardOpenNewStoreButtonPlaceholder.appendChild(storeownerDashboardOpenNewStoreButton);
+          storeownerDashboardOpenStore.appendChild(storeownerDashboardOpenNewStoreButtonPlaceholder);
+          storeownerDashboard.appendChild(storeownerDashboardOpenStore);
+
+
+          // create div for inputting list item function
+
+          var storeownerDashboardListItem = document.createElement("div");
+          storeownerDashboardListItem.class = "sub-dashboard";
+
+          // create span for shop number field
+
+          var storeownerDashboardListNewItemStoreArea = document.createElement("span");
+          storeownerDashboardListNewItemStoreArea.innerHTML = "Store Id: ";
+          var storeownerDashboardListNewItemStore = document.createElement("input");
+          storeownerDashboardListNewItemStore.type = "text";
+          storeownerDashboardListNewItemStore.size = "25";
+          storeownerDashboardListNewItemStore.class = "list-item-fields";
+          storeownerDashboardListNewItemStore.setAttribute("id", "list-item-store-id");
+
+          storeownerDashboardListNewItemStoreArea.appendChild(storeownerDashboardListNewItemStore);
+
+          // create span for item name field
+
+          var storeownerDashboardListNewItemNameArea = document.createElement("span");
+          storeownerDashboardListNewItemNameArea.innerHTML = "Name: ";
+          var storeownerDashboardListNewItemName = document.createElement("input");
+          storeownerDashboardListNewItemName.type = "text";
+          storeownerDashboardListNewItemName.size = "25";
+          storeownerDashboardListNewItemName.class = "list-item-fields";
+          storeownerDashboardListNewItemName.setAttribute("id", "list-item-name");
+
+          storeownerDashboardListNewItemNameArea.appendChild(storeownerDashboardListNewItemName);
+
+          // create span for item price field
+
+          var storeownerDashboardListNewItemPriceArea = document.createElement("span");
+          storeownerDashboardListNewItemPriceArea.innerHTML = "Price: ";
+          var storeownerDashboardListNewItemPrice = document.createElement("input");
+          storeownerDashboardListNewItemPrice.type = "text";
+          storeownerDashboardListNewItemPrice.size = "25";
+          storeownerDashboardListNewItemPrice.class = "list-item-fields";
+          storeownerDashboardListNewItemPrice.setAttribute("id", "list-item-price");
+
+          storeownerDashboardListNewItemPriceArea.appendChild(storeownerDashboardListNewItemPrice);
+
+          // create span for button to list item
+          var storeownerDashboardListNewItemButtonPlaceholder = document.createElement("span");
+          var storeownerDashboardListNewItemButton = document.createElement("button");
+          storeownerDashboardListNewItemButton.type = "button";
+          storeownerDashboardListNewItemButton.class = "btn-list-item";
+          storeownerDashboardListNewItemButton.innerHTML = "List item";
+          storeownerDashboardListNewItemButton.addEventListener("click", function() {
+            return App.handleListItem();
+          });
+
+          storeownerDashboardListNewItemButtonPlaceholder.appendChild(storeownerDashboardListNewItemButton);
+
+          storeownerDashboardListItem.appendChild(storeownerDashboardListNewItemStoreArea);
+          storeownerDashboardListItem.appendChild(storeownerDashboardListNewItemNameArea);
+          storeownerDashboardListItem.appendChild(storeownerDashboardListNewItemPriceArea);
+
+          storeownerDashboardListItem.appendChild(storeownerDashboardListNewItemButtonPlaceholder);
+          storeownerDashboard.appendChild(storeownerDashboardListItem);
+
         }
+
 
       }).catch(function(err) {
         console.log(err.message);
