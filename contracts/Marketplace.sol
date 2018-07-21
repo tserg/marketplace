@@ -61,6 +61,7 @@ contract Marketplace {
   modifier verifyStoreowner { require(userStatus[msg.sender] == Status.Storeowner); _;}
   modifier verifyAdmin { require(userStatus[msg.sender] == Status.Admin); _;}
   modifier verifyAdminOrStoreowner { require(userStatus[msg.sender] == Status.Admin || userStatus[msg.sender] == Status.Storeowner); _;}
+  modifier verifyBuyerIsNotSeller (uint _sku) { require(itemList[_sku].seller != msg.sender); _;}
 
   modifier forSale (uint _sku) {require(itemList[_sku].state == State.ForSale); _;}
 
@@ -130,6 +131,7 @@ contract Marketplace {
     public
     payable
     forSale(sku)
+    verifyBuyerIsNotSeller(sku)
     paidEnough(itemList[sku].price)
     checkValue(sku)
   {

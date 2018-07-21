@@ -9,17 +9,19 @@ body {
 .dashboard {
   border-style: solid;
   padding: 10px;
+  display: block;
 
 }
 
 .sub-dashboard {
   vertical-align:middle;
+  display: block;
 
 }
 
 .list-item-fields {
-  display: table;
-  table-layout: fixed;
+  display: block;
+  vertical-align: middle;
   margin-top: 10px;
 
 }

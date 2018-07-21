@@ -87,7 +87,7 @@ App = {
       App.contracts.Marketplace.deployed().then(function(instance) {
         marketplaceInstance = instance;
 
-        return marketplaceInstance.listItem($("#list-item-store-id").val(), $("#list-item-name").val(), $("#list-item-price").val(), {from: account});
+        return marketplaceInstance.listItem($("#list-item-store-id").val(), $("#list-item-name").val(), web3.toWei($("#list-item-price").val(), "ether"), {from: account});
       }).catch(function(err) {
         console.log(err.message);
       });
@@ -402,7 +402,7 @@ App = {
 
           var currentItemPrice = document.createElement("span");
           currentItemPrice.className = "item-box-details";
-          currentItemPrice.innerHTML = "Price: " + item[3];
+          currentItemPrice.innerHTML = "Price: " + web3.fromWei(item[3]);
           currentItemPrice.setAttribute("id", "price-"+item[1]);
 
           var currentItemState = document.createElement("span");
