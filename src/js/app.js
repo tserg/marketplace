@@ -16,8 +16,28 @@ App = {
 
     // Display current wallet
     var account = web3.eth.accounts[0];
-    console.log("Hello");
+
+    var accountInterval = setInterval(function() {
+      if (web3.eth.accounts[0] !== account) {
+        account = web3.eth.accounts[0];
+        window.location.reload(true);
+      }
+    }, 100);
+
     document.getElementById("account").innerHTML = account;
+
+    // Display current wallet ETH balance
+    var accountWeiBalance = web3.eth.getBalance(account, function(error, result) {
+      if (!error) {
+        console.log(JSON.stringify(result));
+
+        var accountBalance = web3.fromWei(result.toNumber(), "ether");
+        document.getElementById("account_balance").innerHTML = accountBalance;
+
+      } else {
+        console.log(error);
+      }
+    });
 
     // Display status of current wallet i.e. admin privileges
 
@@ -43,7 +63,6 @@ App = {
   },
 
   bindEvents: function() {
-    console.log("hello2");
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
     $(document).on('click', '.btn-list-item', App.handleListItem);
     $(document).one('click', '.btn-view-items', App.populateItemsPlaceholder);
@@ -51,7 +70,6 @@ App = {
   },
 
   handleOpenStore: function(event) {
-    console.log("hello3");
 
     var marketplaceInstance;
 
@@ -70,6 +88,8 @@ App = {
         console.log(err.message);
       });
     });
+
+
   },
 
   handleListItem: function(event) {
@@ -95,7 +115,6 @@ App = {
   },
 
   getStoreId: function(storeId) {
-    console.log("hello4");
 
     var marketplaceInstance;
 
@@ -104,6 +123,7 @@ App = {
 
       return marketplaceInstance.storeId.call();
     }).then(function(storeId) {
+      console.log("Stores: " +storeId);
       document.getElementById("store-id").innerHTML = storeId;
     }).catch(function(err){
       console.log(err.message);
@@ -124,8 +144,143 @@ App = {
     }).catch(function(err) {
       console.log(err.message);
     });
+    return App.getContractOwnerDashboard();
+  },
+
+  getContractOwnerDashboard: function(address) {
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.owner.call();
+      }).then(function(address) {
+
+        if (account == address) {
+          var contractOwnerDashboard = document.getElementById("contract-owner-dashboard");
+          contractOwnerDashboard.style.display = "block";
+
+          // create title for contractOwnerDashboardAddAdmin
+
+          var contractOwnerDashboardTitle = document.createElement("h3");
+          contractOwnerDashboardTitle.innerHTML = "Contract Owner Dashboard";
+
+          contractOwnerDashboard.appendChild(contractOwnerDashboardTitle);
+
+          // create div for inputting add admin function
+
+          var contractOwnerDashboardAddAdmin = document.createElement("div");
+          contractOwnerDashboardAddAdmin.class = "sub-dashboard";
+          var contractOwnerDashboardAddAdminTitle = document.createElement("h4");
+          contractOwnerDashboardAddAdminTitle.innerHTML = "Add an admin";
+
+          // create span for address field
+
+          var contractOwnerDashboardInputNewAdminArea = document.createElement("span");
+          contractOwnerDashboardInputNewAdminArea.innerHTML = "Address: ";
+          var contractOwnerDashboardInputNewAdmin = document.createElement("input");
+          contractOwnerDashboardInputNewAdmin.type = "text";
+          contractOwnerDashboardInputNewAdmin.size = "50";
+          contractOwnerDashboardInputNewAdmin.setAttribute("id", "new-admin-address");
+
+          // create span for button to add admin
+          var contractOwnerDashboardInputNewAdminButtonPlaceholder = document.createElement("span");
+          var contractOwnerDashboardInputNewAdminButton = document.createElement("button");
+          contractOwnerDashboardInputNewAdminButton.type = "button";
+          contractOwnerDashboardInputNewAdminButton.class = "btn-add-admin";
+          contractOwnerDashboardInputNewAdminButton.innerHTML = "Add admin";
+          contractOwnerDashboardInputNewAdminButton.addEventListener("click", function() {
+            return App.handleAddAdmin();
+          });
+
+          // create div for emergency function
+
+          var contractOwnerDashboardEmergency = document.createElement("div");
+          contractOwnerDashboardEmergency.class = "sub-dashboard";
+          var contractOwnerDashboardEmergencyTitle = document.createElement("h4");
+          contractOwnerDashboardEmergencyTitle.innerHTML = "Toggle contract functions in case of emergency";
+
+          // create span for emergency status
+
+          var contractOwnerDashboardEmergencyStatus = document.createElement("span");
+          contractOwnerDashboardEmergencyStatus.setAttribute("id", "emergency-status");
+          contractOwnerDashboardEmergencyStatus.innerHTML = "Click here for current contract status";
+          contractOwnerDashboardEmergencyStatus.addEventListener("click", function() {
+            return App.handleGetEmergencyStatus();
+          });
+
+          // create span for emergency button
+          var contractOwnerDashboardEmergencyButtonPlaceholder = document.createElement("span");
+          var contractOwnerDashboardEmergencyButton = document.createElement("button");
+          contractOwnerDashboardEmergencyButton.type = "button";
+          contractOwnerDashboardEmergencyButton.class = "btn-emergency";
+          contractOwnerDashboardEmergencyButton.innerHTML = "Toggle";
+          contractOwnerDashboardEmergencyButton.addEventListener("click", function() {
+            return App.handleEmergency();
+          });
+
+          // create div for kill contract function
+
+          var contractOwnerDashboardKillContract = document.createElement("div");
+          contractOwnerDashboardKillContract.class = "sub-dashboard";
+          var contractOwnerDashboardKillContractTitle = document.createElement("h4");
+          contractOwnerDashboardKillContractTitle.innerHTML = "Kill contract";
+
+          // create span for emergency button
+          var contractOwnerDashboardKillContractButtonPlaceholder = document.createElement("span");
+          var contractOwnerDashboardKillContractButton = document.createElement("button");
+          contractOwnerDashboardKillContractButton.type = "button";
+          contractOwnerDashboardKillContractButton.class = "btn-kill-contract";
+          contractOwnerDashboardKillContractButton.innerHTML = "Kill contract";
+          contractOwnerDashboardKillContractButton.addEventListener("click", function() {
+            return App.handleKillContract();
+          });
+
+
+          // append all elements
+
+          contractOwnerDashboardInputNewAdminArea.appendChild(contractOwnerDashboardInputNewAdmin);
+          contractOwnerDashboardInputNewAdminButtonPlaceholder.appendChild(contractOwnerDashboardInputNewAdminButton)
+
+          contractOwnerDashboardAddAdmin.appendChild(contractOwnerDashboardAddAdminTitle);
+          contractOwnerDashboardAddAdmin.appendChild(contractOwnerDashboardInputNewAdminArea);
+          contractOwnerDashboardAddAdmin.appendChild(contractOwnerDashboardInputNewAdminButtonPlaceholder);
+
+          contractOwnerDashboardEmergencyButtonPlaceholder.appendChild(contractOwnerDashboardEmergencyButton);
+          contractOwnerDashboardEmergency.appendChild(contractOwnerDashboardEmergencyTitle);
+          contractOwnerDashboardEmergency.appendChild(contractOwnerDashboardEmergencyStatus);
+          contractOwnerDashboardEmergency.appendChild(contractOwnerDashboardEmergencyButtonPlaceholder);
+
+          contractOwnerDashboard.appendChild(contractOwnerDashboardAddAdmin);
+          contractOwnerDashboard.appendChild(contractOwnerDashboardEmergency);
+
+
+          contractOwnerDashboardKillContractButtonPlaceholder.appendChild(contractOwnerDashboardKillContractButton);
+          contractOwnerDashboardKillContract.appendChild(contractOwnerDashboardKillContractTitle);
+          contractOwnerDashboardKillContract.appendChild(contractOwnerDashboardKillContractButtonPlaceholder);
+
+
+          contractOwnerDashboard.appendChild(contractOwnerDashboardKillContract);
+
+
+        }
+
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
     return App.getUserStatus();
   },
+
+
+
 
   getUserStatus: function(status) {
     var marketplaceInstance;
@@ -142,7 +297,6 @@ App = {
 
         return marketplaceInstance.userStatus.call(account);
       }).then(function(status) {
-        console.log("User status: " + status);
 
         if (status == 0) {
           document.getElementById("account_status").innerHTML = "Normal";
@@ -162,41 +316,6 @@ App = {
             adminDashboardTitle.innerHTML = "Admin Dashboard";
 
             adminDashboard.appendChild(adminDashboardTitle);
-
-            // create div for inputting add admin function
-
-            var adminDashboardAddAdmin = document.createElement("div");
-            adminDashboardAddAdmin.class = "sub-dashboard";
-            var adminDashboardAddAdminTitle = document.createElement("h4");
-            adminDashboardAddAdminTitle.innerHTML = "Add an admin";
-
-            // create span for address field
-
-            var adminDashboardInputNewAdminArea = document.createElement("span");
-            adminDashboardInputNewAdminArea.innerHTML = "Address: ";
-            var adminDashboardInputNewAdmin = document.createElement("input");
-            adminDashboardInputNewAdmin.type = "text";
-            adminDashboardInputNewAdmin.size = "50";
-            adminDashboardInputNewAdmin.setAttribute("id", "new-admin-address");
-
-            // create span for button to add admin
-            var adminDashboardInputNewAdminButtonPlaceholder = document.createElement("span");
-            var adminDashboardInputNewAdminButton = document.createElement("button");
-            adminDashboardInputNewAdminButton.type = "button";
-            adminDashboardInputNewAdminButton.class = "btn-add-admin";
-            adminDashboardInputNewAdminButton.innerHTML = "Add admin";
-            adminDashboardInputNewAdminButton.addEventListener("click", function() {
-              return App.handleAddAdmin();
-            })
-
-            adminDashboardInputNewAdminArea.appendChild(adminDashboardInputNewAdmin);
-            adminDashboardInputNewAdminButtonPlaceholder.appendChild(adminDashboardInputNewAdminButton)
-
-            adminDashboardAddAdmin.appendChild(adminDashboardAddAdminTitle);
-            adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminArea);
-            adminDashboardAddAdmin.appendChild(adminDashboardInputNewAdminButtonPlaceholder);
-
-            adminDashboard.appendChild(adminDashboardAddAdmin);
 
             // create div for inputting add storeowner functions
             var adminDashboardAddStoreowner = document.createElement("div");
@@ -248,6 +367,26 @@ App = {
           storeownerDashboardTitle.innerHTML = "Storeowner Dashboard";
 
           storeownerDashboard.appendChild(storeownerDashboardTitle);
+
+          // create div for stores Opened
+
+          var storeownerDashboardStoresOpened = document.createElement("div");
+          storeownerDashboardStoresOpened.class = "sub-dashboard";
+
+          // create span for toExponential
+          var storeownerDashboardStoresOpenedText = document.createElement("span");
+          storeownerDashboardStoresOpenedText.setAttribute("id", "stores-opened");
+          storeownerDashboardStoresOpenedText.innerHTML = "Click me to view your stores.";
+
+          storeownerDashboardStoresOpenedText.addEventListener("click", function() {
+            storeownerDashboardStoresOpenedText.innerHTML = "Stores opened: ";
+            return App.handleGetStoresOpened();
+          });
+
+
+          storeownerDashboardStoresOpened.appendChild(storeownerDashboardStoresOpenedText);
+          storeownerDashboard.appendChild(storeownerDashboardStoresOpened);
+
 
           // create div for open store function
 
@@ -359,7 +498,6 @@ App = {
 
         var parent = document.getElementById("master-box");
         parent.appendChild(box);
-        console.log("Box " + i + " created");
 
       };
     }).catch(function(err) {
@@ -374,10 +512,7 @@ App = {
 
     itemsCount = $("#master-box > div").length;
 
-    console.log("Total no. of items: " + itemsCount);
-
     for (var j = 0; j < itemsCount; j++) {
-      console.log("Current item: " + j);
 
       /* for asynchronous execution of function: to lock in value of j
         https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
@@ -402,7 +537,7 @@ App = {
 
           var currentItemPrice = document.createElement("span");
           currentItemPrice.className = "item-box-details";
-          currentItemPrice.innerHTML = "Price: " + web3.fromWei(item[3]);
+          currentItemPrice.innerHTML = "Price: " + web3.fromWei(item[3], "ether");
           currentItemPrice.setAttribute("id", "price-"+item[1]);
 
           var currentItemState = document.createElement("span");
@@ -451,17 +586,12 @@ App = {
   },
 
   handleBuyItem: function(event) {
-    console.log("buy item");
 
     event.preventDefault();
 
     var _sku = parseInt(($(event.target).attr("id")));
 
-    console.log(_sku);
-
-    var purchasePrice = parseInt($("#price-"+_sku).html().substring(7));
-
-    console.log(purchasePrice);
+    var purchasePrice = parseFloat($("#price-"+_sku).html().substring(7));
 
     var weiPurchasePrice = web3.toWei(purchasePrice, 'ether');
 
@@ -485,7 +615,6 @@ App = {
   },
 
   handleAddAdmin: function(event) {
-    console.log("add admin");
 
     var marketplaceInstance;
 
@@ -507,7 +636,6 @@ App = {
   },
 
   handleAddStoreowner: function(event) {
-    console.log("add store owner");
 
     var marketplaceInstance;
 
@@ -526,7 +654,109 @@ App = {
         console.log(err.message);
       });
     });
+  },
+
+  handleGetStoresOpened: function(event) {
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.fetchStoresByAddress(account);
+      }).then(function(addresses) {
+
+        document.getElementById("stores-opened").innerHTML += addresses;
+
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+
+    });
+  },
+
+  handleEmergency: function(event) {
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.toggleContractActive();
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+
+    });
+  },
+
+  handleGetEmergencyStatus: function(event) {
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.stopped.call();
+      }).then(function(result) {
+
+        if (result == true) {
+          document.getElementById("emergency-status").innerHTML = "Stopped";
+        } else {
+          document.getElementById("emergency-status").innerHTML = "Active";
+        }
+
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+
+    });
+  },
+
+  handleKillContract: function(event) {
+
+    var marketplaceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Marketplace.deployed().then(function(instance) {
+        marketplaceInstance = instance;
+
+        return marketplaceInstance.kill();
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+
+    });
   }
+
+
 
 };
 

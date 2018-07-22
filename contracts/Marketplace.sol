@@ -1,9 +1,15 @@
 pragma solidity ^0.4.23;
 
+import "./Warehouse.sol";
+
 contract Marketplace {
 
   // set owner
-  address owner;
+  address public owner;
+
+  // circuit breaker
+
+  bool public stopped = false;
 
   /*
     storeId: total number of stores opened
@@ -19,33 +25,10 @@ contract Marketplace {
     itemList: itemId mapped to Item
 
   */
-  mapping (address => Status) public userStatus;
+  mapping (address => Warehouse.Status) public userStatus;
   mapping (address => uint[]) public storeownerList;
-  mapping (uint => Store) public storeList;
-  mapping (uint => Item) public itemList;
-
-  /*
-    State: status of item listed for ForSale
-    Status: privileges granted to a user
-  */
-
-  enum State {ForSale, Sold}
-  enum Status {Shopper, Admin, Storeowner}
-
-  struct Store {
-    address storeowner;
-    uint[] items;
-  }
-
-  struct Item {
-    uint place;
-    uint sku;
-    string name;
-    uint price;
-    State state;
-    address seller;
-    address buyer;
-  }
+  mapping (uint => Warehouse.Store) public storeList;
+  mapping (uint => Warehouse.Item) public itemList;
 
   event AdminAdded(address newAdmin);
   event StoreownerAdded(address storeOwner);
@@ -58,12 +41,11 @@ contract Marketplace {
   event ItemUnlisted(uint storeId, uint itemId);
 
   modifier verifyOwner { require(msg.sender == owner); _;}
-  modifier verifyStoreowner { require(userStatus[msg.sender] == Status.Storeowner); _;}
-  modifier verifyAdmin { require(userStatus[msg.sender] == Status.Admin); _;}
-  modifier verifyAdminOrStoreowner { require(userStatus[msg.sender] == Status.Admin || userStatus[msg.sender] == Status.Storeowner); _;}
+  modifier verifyAdmin { require(userStatus[msg.sender] == Warehouse.Status.Admin); _;}
+  modifier verifyAdminOrStoreowner { require(userStatus[msg.sender] == Warehouse.Status.Admin || userStatus[msg.sender] == Warehouse.Status.Storeowner); _;}
   modifier verifyBuyerIsNotSeller (uint _sku) { require(itemList[_sku].seller != msg.sender); _;}
 
-  modifier forSale (uint _sku) {require(itemList[_sku].state == State.ForSale); _;}
+  modifier forSale (uint _sku) {require(itemList[_sku].state == Warehouse.State.ForSale); _;}
 
   modifier paidEnough(uint _price) {require(msg.value >= _price); _;}
   modifier checkValue(uint _sku) {
@@ -73,39 +55,53 @@ contract Marketplace {
     itemList[_sku].buyer.transfer(amountToRefund);
   }
 
+  modifier stopInEmergency { require(!stopped); _;}
+
   constructor() public {
     owner = msg.sender;
     storeId = 0;
     itemId = 0;
 
     // initialise contract creator as admin
-    userStatus[msg.sender] = Status.Admin;
+    userStatus[msg.sender] = Warehouse.Status.Admin;
   }
 
   /*
-    @dev: sets an address as Admin
+    @dev Sets an address as Admin
     @param addr Address to be set as Admin
   */
-  function addAdmin(address _address) public verifyAdmin {
-    userStatus[_address] = Status.Admin;
+  function addAdmin(address _address) public verifyOwner {
+    userStatus[_address] = Warehouse.Status.Admin;
     emit AdminAdded(_address);
   }
 
   /*
-    @dev: sets an address as storeOwner
+    @dev Sets an address as storeOwner
     @param addr Address to be set as Storeowner
   */
-  function addStoreowner(address _address) public verifyAdmin {
+  function addStoreowner(address _address)
+    public
+    stopInEmergency
+    verifyAdmin
+  {
     // ensure user is not already an AdminAdded
-    require(userStatus[_address] != Status.Admin);
+    require(userStatus[_address] != Warehouse.Status.Admin);
 
-    userStatus[_address] = Status.Storeowner;
+    userStatus[_address] = Warehouse.Status.Storeowner;
     emit StoreownerAdded(_address);
   }
 
-  function openStore() public verifyAdminOrStoreowner {
+  /*
+    @dev Ppens a store for the current address
+  */
 
-    Store memory newStore;
+  function openStore()
+    public
+    stopInEmergency
+    verifyAdminOrStoreowner
+  {
+
+    Warehouse.Store memory newStore;
     newStore.storeowner = msg.sender;
     storeList[storeId] = newStore;
     storeownerList[msg.sender].push(storeId);
@@ -116,20 +112,34 @@ contract Marketplace {
 
   }
 
+  /*
+    @dev Lists an item for sale
+    @param _storeId The store to list the item
+    @param _name The name of the item
+    @param _price The price of the item
+  */
+
   function listItem(uint _storeId, string _name, uint _price)
     public
+    stopInEmergency
     verifyAdminOrStoreowner
   {
     require(storeList[_storeId].storeowner == msg.sender);
     emit ItemListed(_storeId, itemId);
-    itemList[itemId] = Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: State.ForSale,
+    itemList[itemId] = Warehouse.Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: Warehouse.State.ForSale,
       seller: msg.sender, buyer: 0});
     itemId += 1;
   }
 
+  /*
+    @dev Buys an item listed for sale
+    @param sku The id of the item to be bought
+  */
+
   function buyItem(uint sku)
     public
     payable
+    stopInEmergency
     forSale(sku)
     verifyBuyerIsNotSeller(sku)
     paidEnough(itemList[sku].price)
@@ -137,9 +147,20 @@ contract Marketplace {
   {
     itemList[sku].buyer = msg.sender;
     itemList[sku].seller.transfer(itemList[sku].price);
-    itemList[sku].state = State.Sold;
+    Warehouse.updateItemSold(itemList[sku]);
     emit ItemSold(itemList[sku].place, sku);
   }
+
+  /*
+    @dev Sets an address as storeOwner
+    @param sku The id of the item which details are sought
+    @return place The store where the item is Listed
+    @return sku The item ID
+    @return name The name of the item
+    @return state Whether the item has been sold
+    @return seller The address of the Seller
+    @return buyer The address of the Buyer (if any)
+  */
 
   function fetchItem(uint _sku)
     public
@@ -156,6 +177,12 @@ contract Marketplace {
     return (place, sku, name, price, state, seller, buyer);
   }
 
+  /*
+    @dev Return the stores opened by an address
+    @param _address Storeowner address to look up
+    @return stores A list of stores opened by the address given
+  */
+
   function fetchStoresByAddress(address _address)
     public
     view
@@ -163,6 +190,12 @@ contract Marketplace {
   {
     stores = storeownerList[_address];
   }
+
+  /*
+    @dev Return the storeowner of a stored
+    @param _storeId The Store to look up
+    @return _storeowner The address of the storeowner
+  */
 
   function fetchStoreowner(uint _storeId)
     public
@@ -172,14 +205,27 @@ contract Marketplace {
     _storeowner = storeList[_storeId].storeowner;
   }
 
-
   /*
-  function closeStore() private verifyStoreowner {
+    @dev Destroy the contract
+  */
 
+  function kill()
+    public
+    verifyOwner
+  {
+    selfdestruct(owner);
   }
 
-
+  /*
+    @dev Stop the contract
   */
+
+  function toggleContractActive()
+    public
+    verifyOwner
+  {
+    stopped = !stopped;
+  }
 
 
 }

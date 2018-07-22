@@ -9,6 +9,8 @@ contract TestMarketplace {
   Marketplace marketplace = Marketplace(DeployedAddresses.Marketplace());
   Marketplace m = new Marketplace();
 
+
+  // test calling initial storeId
   function testNoShopId() public {
 
     uint expected = 0;
@@ -17,34 +19,7 @@ contract TestMarketplace {
 
   }
 
-  function testOpenStore() public {
+  // test calling the openStore function from an address that is not a storeowner
 
-    bool res = helperOpenStore(address(m));
-
-    Assert.isFalse(res, "There should be one store");
-
-  }
-
-  function testAddStoreowner() public {
-
-    helperAddStoreowner(address(m));
-
-    uint expected = 1;
-
-    Assert.equal(expected, marketplace.storeId(), "There should be one admin added");
-  }
-
-  function helperOpenStore(address _address)
-    public
-    returns (bool r)
-  {
-    r = address(_address).call(bytes4(keccak256("openStore")));
-  }
-
-  function helperAddStoreowner(address _address)
-    public
-  {
-    address(_address).call(bytes4(keccak256("addStoreowner(_address)", address(_address))));
-  }
 
 }

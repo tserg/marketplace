@@ -11,11 +11,13 @@ body {
   padding: 10px;
   display: block;
 
+
 }
 
 .sub-dashboard {
-  vertical-align:middle;
+  vertical-align: middle;
   display: block;
+  padding: 10px;
 
 }
 

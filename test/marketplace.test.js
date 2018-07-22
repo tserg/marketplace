@@ -5,18 +5,24 @@ contract('Marketplace', function(accounts) {
   const owner = accounts[0]
   const alice = accounts[1]
   const bob = accounts[2]
+  const charlie = accounts[3]
   const emptyAddress = "0x0000000000000000000000000000000000000000"
+
+  /*
+    Test 1: Tests whether owner can add another admin
+  */
 
   it("should add an admin", async() => {
 
-    const marketplace = await Marketplace.deployed()
+    const marketplace = await Marketplace.deployed({from: owner})
 
     var eventEmitted = false
 
     var event = marketplace.AdminAdded()
     await event.watch((err,res) => {
-      eventEmitted= true
+      eventEmitted = true
     })
+
 
     await marketplace.addAdmin(alice, {from: owner})
 
@@ -25,6 +31,10 @@ contract('Marketplace', function(accounts) {
     assert.equal(result, 1, "the address of the admin was not added")
     assert.equal(eventEmitted, true, "adding an admin should emit a AdminAdded Event")
   })
+
+  /*
+    Test 2: Tests whether a new admin can add a storeowner
+  */
 
   it("should add a storeowner", async() => {
 
@@ -45,6 +55,8 @@ contract('Marketplace', function(accounts) {
     assert.equal(eventEmitted, true, "adding a storeowner should emit a SoreownerAdded Event")
   })
 
+  // Test 3: tests whether a storeowner and another admin can open a store
+
   it("should open a store", async() => {
 
     const marketplace = await Marketplace.deployed()
@@ -58,11 +70,11 @@ contract('Marketplace', function(accounts) {
 
     await marketplace.openStore({from: alice})
     const result1_1 = await marketplace.storeId.call()
-    const result1_2 = await marketplace.fetchStoreowner.call(0)
+    const result1_2 = await marketplace.fetchStoreowner(0)
 
     await marketplace.openStore({from: bob})
     const result2_1 = await marketplace.storeId.call()
-    const result2_2 = await marketplace.fetchStoreowner.call(1)
+    const result2_2 = await marketplace.fetchStoreowner(1)
 
 
     assert.equal(result1_1, 1, "the store was not opened")
@@ -72,6 +84,8 @@ contract('Marketplace', function(accounts) {
     assert.equal(eventEmitted, true, "opening a store should emit a Store Opened Event")
 
   })
+
+  // Test 4: tests whether a storeowner can list an item after opening a store
 
   it("should list an item", async() => {
 
@@ -98,6 +112,8 @@ contract('Marketplace', function(accounts) {
     assert.equal(eventEmitted, true, "listing an item should emit a Item Listed Event")
 
   })
+
+  // tests whether a listed item can be bought
 
   it("should buy an item", async() => {
 
