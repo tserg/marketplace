@@ -125,6 +125,10 @@ contract Marketplace {
     verifyAdminOrStoreowner
   {
     require(storeList[_storeId].storeowner == msg.sender);
+    bytes memory tempName = bytes(_name);
+    require(tempName.length > 0);
+    require(_price > 0);
+
     emit ItemListed(_storeId, itemId);
     itemList[itemId] = Warehouse.Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: Warehouse.State.ForSale,
       seller: msg.sender, buyer: 0});
