@@ -26,14 +26,14 @@
     "absolutePath": "/home/tserg/marketplace/contracts/Warehouse.sol",
     "exportedSymbols": {
       "Warehouse": [
-        625
+        645
       ]
     },
-    "id": 626,
+    "id": 646,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 583,
+        "id": 603,
         "literals": [
           "solidity",
           "^",
@@ -49,25 +49,25 @@
         "contractKind": "library",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 625,
+        "id": 645,
         "linearizedBaseContracts": [
-          625
+          645
         ],
         "name": "Warehouse",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Warehouse.State",
-            "id": 586,
+            "id": 606,
             "members": [
               {
-                "id": 584,
+                "id": 604,
                 "name": "ForSale",
                 "nodeType": "EnumValue",
                 "src": "158:7:1"
               },
               {
-                "id": 585,
+                "id": 605,
                 "name": "Sold",
                 "nodeType": "EnumValue",
                 "src": "167:4:1"
@@ -79,22 +79,22 @@
           },
           {
             "canonicalName": "Warehouse.Status",
-            "id": 590,
+            "id": 610,
             "members": [
               {
-                "id": 587,
+                "id": 607,
                 "name": "Shopper",
                 "nodeType": "EnumValue",
                 "src": "188:7:1"
               },
               {
-                "id": 588,
+                "id": 608,
                 "name": "Admin",
                 "nodeType": "EnumValue",
                 "src": "197:5:1"
               },
               {
-                "id": 589,
+                "id": 609,
                 "name": "Storeowner",
                 "nodeType": "EnumValue",
                 "src": "204:10:1"
@@ -106,14 +106,14 @@
           },
           {
             "canonicalName": "Warehouse.Store",
-            "id": 596,
+            "id": 616,
             "members": [
               {
                 "constant": false,
-                "id": 592,
+                "id": 612,
                 "name": "storeowner",
                 "nodeType": "VariableDeclaration",
-                "scope": 596,
+                "scope": 616,
                 "src": "238:18:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -122,7 +122,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 591,
+                  "id": 611,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "238:7:1",
@@ -136,10 +136,10 @@
               },
               {
                 "constant": false,
-                "id": 595,
+                "id": 615,
                 "name": "items",
                 "nodeType": "VariableDeclaration",
-                "scope": 596,
+                "scope": 616,
                 "src": "262:12:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -149,7 +149,7 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 593,
+                    "id": 613,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "262:4:1",
@@ -158,7 +158,7 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 594,
+                  "id": 614,
                   "length": null,
                   "nodeType": "ArrayTypeName",
                   "src": "262:6:1",
@@ -173,20 +173,20 @@
             ],
             "name": "Store",
             "nodeType": "StructDefinition",
-            "scope": 625,
+            "scope": 645,
             "src": "219:60:1",
             "visibility": "public"
           },
           {
             "canonicalName": "Warehouse.Item",
-            "id": 611,
+            "id": 631,
             "members": [
               {
                 "constant": false,
-                "id": 598,
+                "id": 618,
                 "name": "place",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "301:10:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -195,7 +195,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 597,
+                  "id": 617,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "301:4:1",
@@ -209,10 +209,10 @@
               },
               {
                 "constant": false,
-                "id": 600,
+                "id": 620,
                 "name": "sku",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "317:8:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -221,7 +221,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 599,
+                  "id": 619,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "317:4:1",
@@ -235,10 +235,10 @@
               },
               {
                 "constant": false,
-                "id": 602,
+                "id": 622,
                 "name": "name",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "331:11:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -247,7 +247,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 601,
+                  "id": 621,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "331:6:1",
@@ -261,10 +261,10 @@
               },
               {
                 "constant": false,
-                "id": 604,
+                "id": 624,
                 "name": "price",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "348:10:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -273,7 +273,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 603,
+                  "id": 623,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "348:4:1",
@@ -287,26 +287,26 @@
               },
               {
                 "constant": false,
-                "id": 606,
+                "id": 626,
                 "name": "state",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "364:11:1",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_State_$586",
+                  "typeIdentifier": "t_enum$_State_$606",
                   "typeString": "enum Warehouse.State"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 605,
+                  "id": 625,
                   "name": "State",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 586,
+                  "referencedDeclaration": 606,
                   "src": "364:5:1",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_State_$586",
+                    "typeIdentifier": "t_enum$_State_$606",
                     "typeString": "enum Warehouse.State"
                   }
                 },
@@ -315,10 +315,10 @@
               },
               {
                 "constant": false,
-                "id": 608,
+                "id": 628,
                 "name": "seller",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "381:14:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -327,7 +327,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 607,
+                  "id": 627,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "381:7:1",
@@ -341,10 +341,10 @@
               },
               {
                 "constant": false,
-                "id": 610,
+                "id": 630,
                 "name": "buyer",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "401:13:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -353,7 +353,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 609,
+                  "id": 629,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "401:7:1",
@@ -368,20 +368,20 @@
             ],
             "name": "Item",
             "nodeType": "StructDefinition",
-            "scope": 625,
+            "scope": 645,
             "src": "283:136:1",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 623,
+              "id": 643,
               "nodeType": "Block",
               "src": "565:34:1",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 621,
+                    "id": 641,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -390,28 +390,28 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 616,
+                        "id": 636,
                         "name": "self",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 613,
+                        "referencedDeclaration": 633,
                         "src": "571:4:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                          "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                           "typeString": "struct Warehouse.Item storage pointer"
                         }
                       },
-                      "id": 618,
+                      "id": 638,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "state",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 606,
+                      "referencedDeclaration": 626,
                       "src": "571:10:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_State_$586",
+                        "typeIdentifier": "t_enum$_State_$606",
                         "typeString": "enum Warehouse.State"
                       }
                     },
@@ -421,18 +421,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 619,
+                        "id": 639,
                         "name": "State",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 586,
+                        "referencedDeclaration": 606,
                         "src": "584:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_enum$_State_$586_$",
+                          "typeIdentifier": "t_type$_t_enum$_State_$606_$",
                           "typeString": "type(enum Warehouse.State)"
                         }
                       },
-                      "id": 620,
+                      "id": 640,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -442,24 +442,24 @@
                       "referencedDeclaration": null,
                       "src": "584:10:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_State_$586",
+                        "typeIdentifier": "t_enum$_State_$606",
                         "typeString": "enum Warehouse.State"
                       }
                     },
                     "src": "571:23:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_State_$586",
+                      "typeIdentifier": "t_enum$_State_$606",
                       "typeString": "enum Warehouse.State"
                     }
                   },
-                  "id": 622,
+                  "id": 642,
                   "nodeType": "ExpressionStatement",
                   "src": "571:23:1"
                 }
               ]
             },
             "documentation": null,
-            "id": 624,
+            "id": 644,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -467,31 +467,31 @@
             "name": "updateItemSold",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 614,
+              "id": 634,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 613,
+                  "id": 633,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 624,
+                  "scope": 644,
                   "src": "533:17:1",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                    "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                     "typeString": "struct Warehouse.Item"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 612,
+                    "id": 632,
                     "name": "Item",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 611,
+                    "referencedDeclaration": 631,
                     "src": "533:4:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                      "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                       "typeString": "struct Warehouse.Item"
                     }
                   },
@@ -503,19 +503,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 615,
+              "id": 635,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "565:0:1"
             },
-            "scope": 625,
+            "scope": 645,
             "src": "509:90:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 626,
+        "scope": 646,
         "src": "26:576:1"
       }
     ],
@@ -525,14 +525,14 @@
     "absolutePath": "/home/tserg/marketplace/contracts/Warehouse.sol",
     "exportedSymbols": {
       "Warehouse": [
-        625
+        645
       ]
     },
-    "id": 626,
+    "id": 646,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 583,
+        "id": 603,
         "literals": [
           "solidity",
           "^",
@@ -548,25 +548,25 @@
         "contractKind": "library",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 625,
+        "id": 645,
         "linearizedBaseContracts": [
-          625
+          645
         ],
         "name": "Warehouse",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Warehouse.State",
-            "id": 586,
+            "id": 606,
             "members": [
               {
-                "id": 584,
+                "id": 604,
                 "name": "ForSale",
                 "nodeType": "EnumValue",
                 "src": "158:7:1"
               },
               {
-                "id": 585,
+                "id": 605,
                 "name": "Sold",
                 "nodeType": "EnumValue",
                 "src": "167:4:1"
@@ -578,22 +578,22 @@
           },
           {
             "canonicalName": "Warehouse.Status",
-            "id": 590,
+            "id": 610,
             "members": [
               {
-                "id": 587,
+                "id": 607,
                 "name": "Shopper",
                 "nodeType": "EnumValue",
                 "src": "188:7:1"
               },
               {
-                "id": 588,
+                "id": 608,
                 "name": "Admin",
                 "nodeType": "EnumValue",
                 "src": "197:5:1"
               },
               {
-                "id": 589,
+                "id": 609,
                 "name": "Storeowner",
                 "nodeType": "EnumValue",
                 "src": "204:10:1"
@@ -605,14 +605,14 @@
           },
           {
             "canonicalName": "Warehouse.Store",
-            "id": 596,
+            "id": 616,
             "members": [
               {
                 "constant": false,
-                "id": 592,
+                "id": 612,
                 "name": "storeowner",
                 "nodeType": "VariableDeclaration",
-                "scope": 596,
+                "scope": 616,
                 "src": "238:18:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -621,7 +621,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 591,
+                  "id": 611,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "238:7:1",
@@ -635,10 +635,10 @@
               },
               {
                 "constant": false,
-                "id": 595,
+                "id": 615,
                 "name": "items",
                 "nodeType": "VariableDeclaration",
-                "scope": 596,
+                "scope": 616,
                 "src": "262:12:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -648,7 +648,7 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 593,
+                    "id": 613,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "262:4:1",
@@ -657,7 +657,7 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 594,
+                  "id": 614,
                   "length": null,
                   "nodeType": "ArrayTypeName",
                   "src": "262:6:1",
@@ -672,20 +672,20 @@
             ],
             "name": "Store",
             "nodeType": "StructDefinition",
-            "scope": 625,
+            "scope": 645,
             "src": "219:60:1",
             "visibility": "public"
           },
           {
             "canonicalName": "Warehouse.Item",
-            "id": 611,
+            "id": 631,
             "members": [
               {
                 "constant": false,
-                "id": 598,
+                "id": 618,
                 "name": "place",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "301:10:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -694,7 +694,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 597,
+                  "id": 617,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "301:4:1",
@@ -708,10 +708,10 @@
               },
               {
                 "constant": false,
-                "id": 600,
+                "id": 620,
                 "name": "sku",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "317:8:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -720,7 +720,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 599,
+                  "id": 619,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "317:4:1",
@@ -734,10 +734,10 @@
               },
               {
                 "constant": false,
-                "id": 602,
+                "id": 622,
                 "name": "name",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "331:11:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -746,7 +746,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 601,
+                  "id": 621,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "331:6:1",
@@ -760,10 +760,10 @@
               },
               {
                 "constant": false,
-                "id": 604,
+                "id": 624,
                 "name": "price",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "348:10:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -772,7 +772,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 603,
+                  "id": 623,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "348:4:1",
@@ -786,26 +786,26 @@
               },
               {
                 "constant": false,
-                "id": 606,
+                "id": 626,
                 "name": "state",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "364:11:1",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_State_$586",
+                  "typeIdentifier": "t_enum$_State_$606",
                   "typeString": "enum Warehouse.State"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 605,
+                  "id": 625,
                   "name": "State",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 586,
+                  "referencedDeclaration": 606,
                   "src": "364:5:1",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_State_$586",
+                    "typeIdentifier": "t_enum$_State_$606",
                     "typeString": "enum Warehouse.State"
                   }
                 },
@@ -814,10 +814,10 @@
               },
               {
                 "constant": false,
-                "id": 608,
+                "id": 628,
                 "name": "seller",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "381:14:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -826,7 +826,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 607,
+                  "id": 627,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "381:7:1",
@@ -840,10 +840,10 @@
               },
               {
                 "constant": false,
-                "id": 610,
+                "id": 630,
                 "name": "buyer",
                 "nodeType": "VariableDeclaration",
-                "scope": 611,
+                "scope": 631,
                 "src": "401:13:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -852,7 +852,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 609,
+                  "id": 629,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "401:7:1",
@@ -867,20 +867,20 @@
             ],
             "name": "Item",
             "nodeType": "StructDefinition",
-            "scope": 625,
+            "scope": 645,
             "src": "283:136:1",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 623,
+              "id": 643,
               "nodeType": "Block",
               "src": "565:34:1",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 621,
+                    "id": 641,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -889,28 +889,28 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 616,
+                        "id": 636,
                         "name": "self",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 613,
+                        "referencedDeclaration": 633,
                         "src": "571:4:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                          "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                           "typeString": "struct Warehouse.Item storage pointer"
                         }
                       },
-                      "id": 618,
+                      "id": 638,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "state",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 606,
+                      "referencedDeclaration": 626,
                       "src": "571:10:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_State_$586",
+                        "typeIdentifier": "t_enum$_State_$606",
                         "typeString": "enum Warehouse.State"
                       }
                     },
@@ -920,18 +920,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 619,
+                        "id": 639,
                         "name": "State",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 586,
+                        "referencedDeclaration": 606,
                         "src": "584:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_enum$_State_$586_$",
+                          "typeIdentifier": "t_type$_t_enum$_State_$606_$",
                           "typeString": "type(enum Warehouse.State)"
                         }
                       },
-                      "id": 620,
+                      "id": 640,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -941,24 +941,24 @@
                       "referencedDeclaration": null,
                       "src": "584:10:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_State_$586",
+                        "typeIdentifier": "t_enum$_State_$606",
                         "typeString": "enum Warehouse.State"
                       }
                     },
                     "src": "571:23:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_State_$586",
+                      "typeIdentifier": "t_enum$_State_$606",
                       "typeString": "enum Warehouse.State"
                     }
                   },
-                  "id": 622,
+                  "id": 642,
                   "nodeType": "ExpressionStatement",
                   "src": "571:23:1"
                 }
               ]
             },
             "documentation": null,
-            "id": 624,
+            "id": 644,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -966,31 +966,31 @@
             "name": "updateItemSold",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 614,
+              "id": 634,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 613,
+                  "id": 633,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 624,
+                  "scope": 644,
                   "src": "533:17:1",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                    "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                     "typeString": "struct Warehouse.Item"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 612,
+                    "id": 632,
                     "name": "Item",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 611,
+                    "referencedDeclaration": 631,
                     "src": "533:4:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Item_$611_storage_ptr",
+                      "typeIdentifier": "t_struct$_Item_$631_storage_ptr",
                       "typeString": "struct Warehouse.Item"
                     }
                   },
@@ -1002,19 +1002,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 615,
+              "id": 635,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "565:0:1"
             },
-            "scope": 625,
+            "scope": 645,
             "src": "509:90:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 626,
+        "scope": 646,
         "src": "26:576:1"
       }
     ],
@@ -1030,8 +1030,14 @@
       "links": {},
       "address": "0xdf84573fbe943b95779568619e96b4fbcac9d1af",
       "transactionHash": "0xfec717039766523b503c99286bdac03531a044c6c2abbf37e6b5d9aecffd6eca"
+    },
+    "1532443764997": {
+      "events": {},
+      "links": {},
+      "address": "0xce8ce589412b291c455a3b3be4f6e5dd64fb317c",
+      "transactionHash": "0xc20f7df4bca34f738bb0ed76a375b1e86ac0a304d7f9005735502bf0eb161cb1"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-07-22T10:47:50.893Z"
+  "updatedAt": "2018-07-24T15:38:06.956Z"
 }

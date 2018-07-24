@@ -71,6 +71,9 @@ contract Marketplace {
     @param addr Address to be set as Admin
   */
   function addAdmin(address _address) public verifyOwner {
+    // ensure address to be added is not already an admin
+    require(userStatus[_address] != Warehouse.Status.Admin);
+
     userStatus[_address] = Warehouse.Status.Admin;
     emit AdminAdded(_address);
   }
@@ -84,8 +87,11 @@ contract Marketplace {
     stopInEmergency
     verifyAdmin
   {
-    // ensure user is not already an AdminAdded
+    // ensure address to be added is not already an admin
     require(userStatus[_address] != Warehouse.Status.Admin);
+
+    // ensure address to be added is not already a storeowner
+    require(userStatus[_address] != Warehouse.Status.Storeowner);
 
     userStatus[_address] = Warehouse.Status.Storeowner;
     emit StoreownerAdded(_address);
@@ -124,14 +130,19 @@ contract Marketplace {
     stopInEmergency
     verifyAdminOrStoreowner
   {
+    // ensure address is storeowner of the store where item is to be listed
     require(storeList[_storeId].storeowner == msg.sender);
+
+    // ensure name is not empty
     bytes memory tempName = bytes(_name);
     require(tempName.length > 0);
+
+    // ensure price is positive
     require(_price > 0);
 
-    emit ItemListed(_storeId, itemId);
     itemList[itemId] = Warehouse.Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: Warehouse.State.ForSale,
       seller: msg.sender, buyer: 0});
+    emit ItemListed(_storeId, itemId);
     itemId += 1;
   }
 
@@ -149,8 +160,8 @@ contract Marketplace {
     paidEnough(itemList[sku].price)
     checkValue(sku)
   {
-    itemList[sku].buyer = msg.sender;
     itemList[sku].seller.transfer(itemList[sku].price);
+    itemList[sku].buyer = msg.sender;
     Warehouse.updateItemSold(itemList[sku]);
     emit ItemSold(itemList[sku].place, sku);
   }
@@ -230,6 +241,5 @@ contract Marketplace {
   {
     stopped = !stopped;
   }
-
 
 }

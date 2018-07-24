@@ -379,7 +379,7 @@ App = {
           storeownerDashboardStoresOpenedText.innerHTML = "Click me to view your stores.";
 
           storeownerDashboardStoresOpenedText.addEventListener("click", function() {
-            storeownerDashboardStoresOpenedText.innerHTML = "Stores opened: ";
+            storeownerDashboardStoresOpenedText.innerHTML = "Store Ids of your current stores: ";
             return App.handleGetStoresOpened();
           });
 
@@ -586,8 +586,6 @@ App = {
   },
 
   handleBuyItem: function(event) {
-
-    event.preventDefault();
 
     var _sku = parseInt(($(event.target).attr("id")));
 
