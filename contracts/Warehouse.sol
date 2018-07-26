@@ -25,11 +25,9 @@ library Warehouse {
     address buyer;
   }
 
-  /*
-    @dev Update item status to Sold
-    @param self The item that was sold
-  */
-
+  /** @dev Update item status to Sold
+    * @param self The item that was sold
+    */
   function updateItemSold(Item storage self)
     public
   {

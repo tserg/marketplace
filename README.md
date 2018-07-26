@@ -2,6 +2,18 @@
 
 This is a simple marketplace application for users to list items for sale and buy items. Any payment is transferred between buyer and seller directly.
 
+There are four possible roles for a user:
+1. Contract owner
+  * Can add admins
+  * Can add storeowners
+  * Can open stores
+2. Admin
+  * Can add storeowners
+  * Can open stores
+3. Storeowner
+  * Can open stores
+4. User
+
 ## Prerequisites
 
 Install truffle.

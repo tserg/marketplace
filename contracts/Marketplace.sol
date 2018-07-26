@@ -23,7 +23,6 @@ contract Marketplace {
     storeOwnerList: stores owned by each address
     storeList: storeId mapped to Store
     itemList: itemId mapped to Item
-
   */
   mapping (address => Warehouse.Status) public userStatus;
   mapping (address => uint[]) public storeownerList;
@@ -66,10 +65,9 @@ contract Marketplace {
     userStatus[msg.sender] = Warehouse.Status.Admin;
   }
 
-  /*
-    @dev Sets an address as Admin
-    @param addr Address to be set as Admin
-  */
+  /** @dev Sets an address as Admin
+    * @param _address Address to be set as Admin
+    */
   function addAdmin(address _address) public verifyOwner {
     // ensure address to be added is not already an admin
     require(userStatus[_address] != Warehouse.Status.Admin);
@@ -78,10 +76,9 @@ contract Marketplace {
     emit AdminAdded(_address);
   }
 
-  /*
-    @dev Sets an address as storeOwner
-    @param addr Address to be set as Storeowner
-  */
+  /** @dev Sets an address as storeOwner
+    * @param _address Address to be set as Storeowner
+    */
   function addStoreowner(address _address)
     public
     stopInEmergency
@@ -97,9 +94,8 @@ contract Marketplace {
     emit StoreownerAdded(_address);
   }
 
-  /*
-    @dev Ppens a store for the current address
-  */
+  /** @dev Opens a store for the current address
+    */
 
   function openStore()
     public
@@ -118,13 +114,11 @@ contract Marketplace {
 
   }
 
-  /*
-    @dev Lists an item for sale
-    @param _storeId The store to list the item
-    @param _name The name of the item
-    @param _price The price of the item
-  */
-
+  /** @dev Lists an item for sale
+    * @param _storeId The store to list the item
+    * @param _name The name of the item
+    * @param _price The price of the item
+    */
   function listItem(uint _storeId, string _name, uint _price)
     public
     stopInEmergency
@@ -146,11 +140,9 @@ contract Marketplace {
     itemId += 1;
   }
 
-  /*
-    @dev Buys an item listed for sale
-    @param sku The id of the item to be bought
-  */
-
+  /** @dev Buys an item listed for sale
+    * @param sku The id of the item to be bought
+    */
   function buyItem(uint sku)
     public
     payable
@@ -166,17 +158,15 @@ contract Marketplace {
     emit ItemSold(itemList[sku].place, sku);
   }
 
-  /*
-    @dev Sets an address as storeOwner
-    @param sku The id of the item which details are sought
-    @return place The store where the item is Listed
-    @return sku The item ID
-    @return name The name of the item
-    @return state Whether the item has been sold
-    @return seller The address of the Seller
-    @return buyer The address of the Buyer (if any)
-  */
-
+  /** @dev Sets an address as storeOwner
+    * @param sku The id of the item which details are sought
+    * @return place The store where the item is Listed
+    * @return sku The item ID
+    * @return name The name of the item
+    * @return state Whether the item has been sold
+    * @return seller The address of the Seller
+    * @return buyer The address of the Buyer (if any)
+    */
   function fetchItem(uint _sku)
     public
     view
@@ -192,12 +182,10 @@ contract Marketplace {
     return (place, sku, name, price, state, seller, buyer);
   }
 
-  /*
-    @dev Return the stores opened by an address
-    @param _address Storeowner address to look up
-    @return stores A list of stores opened by the address given
-  */
-
+  /** @dev Return the stores opened by an address
+    * @param _address Storeowner address to look up
+    * @return stores A list of stores opened by the address given
+    */
   function fetchStoresByAddress(address _address)
     public
     view
@@ -206,12 +194,10 @@ contract Marketplace {
     stores = storeownerList[_address];
   }
 
-  /*
-    @dev Return the storeowner of a stored
-    @param _storeId The Store to look up
-    @return _storeowner The address of the storeowner
-  */
-
+  /** @dev Return the storeowner of a stored
+    * @param _storeId The Store to look up
+    * @return _storeowner The address of the storeowner
+    */
   function fetchStoreowner(uint _storeId)
     public
     view
@@ -220,10 +206,8 @@ contract Marketplace {
     _storeowner = storeList[_storeId].storeowner;
   }
 
-  /*
-    @dev Destroy the contract
-  */
-
+  /** @dev Destroy the contract
+    */
   function kill()
     public
     verifyOwner
@@ -231,10 +215,8 @@ contract Marketplace {
     selfdestruct(owner);
   }
 
-  /*
-    @dev Stop the contract
-  */
-
+  /** @dev Stop the contract
+    */
   function toggleContractActive()
     public
     verifyOwner
