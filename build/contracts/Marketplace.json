@@ -15777,8 +15777,16 @@
       },
       "address": "0xda2f7d243d50e583a3572e4a24cd272fed0cba81",
       "transactionHash": "0x6c4ad627398442480deb7a30e1cea7dc870b8cb605d4e33a6f0acc10ac9ea7ab"
+    },
+    "1533786096852": {
+      "events": {},
+      "links": {
+        "Warehouse": "0x1ac154e0ae4af3f1c59893f62b2de0752442ee5e"
+      },
+      "address": "0x8147c5bed9b25d7662d851c3c4a785b1beae1496",
+      "transactionHash": "0x95ede2f85a9a81c0e8a790618ce2a0d76126726847013703f4cbc9d6b6ec25c4"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-07-26T14:10:34.729Z"
+  "updatedAt": "2018-08-09T04:04:43.906Z"
 }

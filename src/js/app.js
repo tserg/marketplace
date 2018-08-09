@@ -65,7 +65,7 @@ App = {
   bindEvents: function() {
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
     $(document).on('click', '.btn-list-item', App.handleListItem);
-    $(document).one('click', '.btn-view-items', App.populateItemsPlaceholder);
+    $(document).on('click', '.btn-view-items', App.populateItemsPlaceholder);
     $(document).on('click', '.btn-item-buy', App.handleBuyItem);
   },
 
@@ -511,6 +511,10 @@ App = {
     var itemsCount;
 
     itemsCount = $("#master-box > div").length;
+
+    if (itemsCount == 0) {
+      document.getElementById("master-box").innerHTML = "There are no items listed for sale.";
+    }
 
     for (var j = 0; j < itemsCount; j++) {
 
