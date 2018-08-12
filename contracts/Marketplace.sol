@@ -102,6 +102,7 @@ contract Marketplace {
     stopInEmergency
     verifyAdminOrStoreowner
   {
+    storeId += 1;
 
     Warehouse.Store memory newStore;
     newStore.storeowner = msg.sender;
@@ -109,8 +110,6 @@ contract Marketplace {
     storeownerList[msg.sender].push(storeId);
 
     emit StoreOpened(msg.sender, storeId);
-
-    storeId += 1;
 
   }
 
@@ -134,10 +133,12 @@ contract Marketplace {
     // ensure price is positive
     require(_price > 0);
 
+    itemId += 1;
+
     itemList[itemId] = Warehouse.Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: Warehouse.State.ForSale,
       seller: msg.sender, buyer: 0});
     emit ItemListed(_storeId, itemId);
-    itemId += 1;
+
   }
 
   /** @dev Buys an item listed for sale
@@ -152,9 +153,9 @@ contract Marketplace {
     paidEnough(itemList[sku].price)
     checkValue(sku)
   {
-    itemList[sku].seller.transfer(itemList[sku].price);
-    itemList[sku].buyer = msg.sender;
     Warehouse.updateItemSold(itemList[sku]);
+    itemList[sku].buyer = msg.sender;
+    itemList[sku].seller.transfer(itemList[sku].price);
     emit ItemSold(itemList[sku].place, sku);
   }
 

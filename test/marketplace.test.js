@@ -70,11 +70,11 @@ contract('Marketplace', function(accounts) {
 
     await marketplace.openStore({from: alice})
     const result1_1 = await marketplace.storeId.call()
-    const result1_2 = await marketplace.fetchStoreowner(0)
+    const result1_2 = await marketplace.fetchStoreowner(1)
 
     await marketplace.openStore({from: bob})
     const result2_1 = await marketplace.storeId.call()
-    const result2_2 = await marketplace.fetchStoreowner(1)
+    const result2_2 = await marketplace.fetchStoreowner(2)
 
 
     assert.equal(result1_1, 1, "the store was not opened")
@@ -98,12 +98,12 @@ contract('Marketplace', function(accounts) {
       eventEmitted = true
     })
 
-    await marketplace.listItem(0, "boots", 2, {from: alice})
+    await marketplace.listItem(1, "boots", 2, {from: alice})
     const result1_1 = await marketplace.itemId.call()
-    const result1_2 = await marketplace.fetchItem(0)
+    const result1_2 = await marketplace.fetchItem(1)
 
     assert.equal(result1_1, 1, "the item was not added")
-    assert.equal(result1_2[0], 0, "the shop of the listed item is incorrect")
+    assert.equal(result1_2[0], 1, "the shop of the listed item is incorrect")
     assert.equal(result1_2[2], "boots", "the name of the listed item is incorrect")
     assert.equal(result1_2[3], 2, "the price of the listed item is incorrect")
     assert.equal(result1_2[4], 0, "the status of the item is incorrect")
@@ -128,8 +128,8 @@ contract('Marketplace', function(accounts) {
 
     var amount = web3.toWei(2, "ether")
 
-    await marketplace.buyItem(0, {from: bob, value: amount})
-    const result1_1 = await marketplace.fetchItem(0)
+    await marketplace.buyItem(1, {from: bob, value: amount})
+    const result1_1 = await marketplace.fetchItem(1)
 
     assert.equal(result1_1[6], bob, "the buyer of the item is incorrect")
     assert.equal(eventEmitted, true, "buying an item should emit a Item Sold Event")
