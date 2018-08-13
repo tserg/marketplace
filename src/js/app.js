@@ -65,7 +65,9 @@ App = {
   bindEvents: function() {
     $(document).on('click', '.btn-open-store', App.handleOpenStore);
     $(document).on('click', '.btn-list-item', App.handleListItem);
-    $(document).on('click', '.btn-view-items', App.populateItemsPlaceholder);
+
+    // one allows onclick to be work only once
+    $(document).one('click', '.btn-view-items', App.populateItemsPlaceholder);
     $(document).on('click', '.btn-item-buy', App.handleBuyItem);
   },
 
@@ -489,7 +491,7 @@ App = {
 
       var _itemId = itemId;
 
-      for (var i = 0; i<_itemId; i++) {
+      for (var i = 1; i<=_itemId; i++) {
 
         var box = document.createElement("div");
         box.className = "item-box";
@@ -516,7 +518,7 @@ App = {
       document.getElementById("master-box").innerHTML = "There are no items listed for sale.";
     }
 
-    for (var j = 0; j < itemsCount; j++) {
+    for (var j = 1; j <= itemsCount; j++) {
 
       /* for asynchronous execution of function: to lock in value of j
         https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
@@ -572,7 +574,7 @@ App = {
             var buyButton = document.createElement("button");
             buyButton.className = "btn-item-buy";
             buyButton.setAttribute("type", "button")
-            buyButton.setAttribute("id", item[0]);
+            buyButton.setAttribute("id", item[1]);
             buyButton.innerHTML = "Buy this item";
             currentBox.appendChild(buyButton);
           }
