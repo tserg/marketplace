@@ -22,7 +22,7 @@ module.exports = {
       network_id: "*",
 
       // replace this address
-      from: "0x2Bf77398b4bE6bD6D2cA8eFE30bA3D8cf1Bf3220"
+      from: "0x7d4Ac7Dd756d372b93971561428A95B455580daA"
     }
   }
 };

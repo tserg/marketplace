@@ -1,19 +1,36 @@
+window.addEventListener('load', async () => {
+// Modern dapp browsers...
+  if (window.ethereum) {
+      window.web3 = new Web3(ethereum);
+      try {
+          // Request account access if needed
+          await ethereum.enable();
+          App.initAccount();
+
+      } catch (error) {
+          console.log("Please enable access to Metamask");
+      }
+  }
+  // Legacy dapp browsers...
+  else if (window.web3) {
+      window.web3 = new Web3(web3.currentProvider);
+      // Acccounts always exposed
+      App.initAccount();
+
+  }
+  // Non-dapp browsers...
+  else {
+      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+  }
+});
+
 App = {
   Web3Provider: null,
   contracts: {},
 
-  initWeb3: function() {
+  initAccount: function() {
 
-    //Is there an injected web3 instance?
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider;
-    } else {
-
-    // If no injected web3 instance is detected, fall back to Ganache
-      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
-    }
-    web3 = new Web3(App.web3Provider);
-
+    App.web3Provider = web3.currentProvider;
     // Display current wallet
     var account = web3.eth.accounts[0];
 
@@ -763,9 +780,3 @@ App = {
 
 
 };
-
-$(function() {
-  $(window).load(function() {
-    App.initWeb3();
-  });
-});
