@@ -75,6 +75,9 @@ npm run dev
 
 Please refresh the page after each transaction (if it does not do so automatically).
 
+## Updates
+* 22 November 2018: Supports privacy mode (EIP-1102)
+
 ## Built With
 
 * Truffle
