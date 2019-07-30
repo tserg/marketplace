@@ -1,11 +1,11 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.8;
 
 import "./Warehouse.sol";
 
 contract Marketplace {
 
   // set owner
-  address public owner;
+  address payable public owner;
 
   // circuit breaker
 
@@ -118,7 +118,7 @@ contract Marketplace {
     * @param _name The name of the item
     * @param _price The price of the item
     */
-  function listItem(uint _storeId, string _name, uint _price)
+  function listItem(uint _storeId, string memory _name, uint _price)
     public
     stopInEmergency
     verifyAdminOrStoreowner
@@ -136,7 +136,7 @@ contract Marketplace {
     itemId += 1;
 
     itemList[itemId] = Warehouse.Item({place: _storeId, sku: itemId, name: _name,  price: _price, state: Warehouse.State.ForSale,
-      seller: msg.sender, buyer: 0});
+      seller: msg.sender, buyer: address(0)});
     emit ItemListed(_storeId, itemId);
 
   }
@@ -171,7 +171,7 @@ contract Marketplace {
   function fetchItem(uint _sku)
     public
     view
-    returns (uint place, uint sku, string name, uint price, uint state, address seller, address buyer)
+    returns (uint place, uint sku, string memory name, uint price, uint state, address seller, address buyer)
   {
     place = itemList[_sku].place;
     sku = itemList[_sku].sku;
@@ -190,7 +190,7 @@ contract Marketplace {
   function fetchStoresByAddress(address _address)
     public
     view
-    returns (uint[] stores)
+    returns (uint[] memory stores)
   {
     stores = storeownerList[_address];
   }

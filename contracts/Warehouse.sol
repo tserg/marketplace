@@ -1,4 +1,4 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.8;
 
 library Warehouse {
 
@@ -21,8 +21,8 @@ library Warehouse {
     string name;
     uint price;
     State state;
-    address seller;
-    address buyer;
+    address payable seller;
+    address payable buyer;
   }
 
   /** @dev Update item status to Sold
